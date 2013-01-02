@@ -1,0 +1,35 @@
+#!/bin/bash
+
+GEARS=50
+TIMEOUT=600
+
+if ! [ -e /root/.openshift/express.conf ]
+then
+    mkdir -p /root/.openshift
+    cat <<_EOF_ > /root/.openshift/express.conf
+libra_server=localhost
+default_rhlogin=$USER
+_EOF_
+fi
+
+if ! [ -e /root/.ssh/id_rsa ]
+then
+    ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+fi
+
+INSTANCE=$(curl -s http://169.254.169.254/latest/meta-data/instance-id | cut -f 2 -d -)
+
+for i in `seq $GEARS`
+do
+    rhc domain create -l "u${i}" -p none -n "n${i}i${INSTANCE}" --timeout $TIMEOUT
+
+    rhc sshkey add -l "u${i}" -p none default /root/.ssh/id_rsa.pub
+
+    rhc app create -l "u${i}" -p none -a "a${i}" -t php-5.3 --no-git --no-dns --timeout $TIMEOUT
+    
+    rhc cartridge add -l "u${i}" -p none -a "a${i}" -c "mysql-5.1" --timeout $TIMEOUT
+
+    rhc cartridge add -l "u${i}" -p none -a "a${i}" -c "phpmyadmin-3.4" --timeout $TIMEOUT
+
+    [ -e STOP ] && break
+done

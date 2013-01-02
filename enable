@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo 50   > /sys/kernel/mm/ksm/sleep_millisecs
+echo 10   > /sys/kernel/mm/ksm/pages_to_scan
+echo 1    > /sys/kernel/mm/ksm/run

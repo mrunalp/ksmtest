@@ -1,0 +1,18 @@
+#!/bin/bash
+
+GEARS=50
+TIMEOUT=600
+
+for i in `seq $GEARS`
+do
+    host=$( rhc app show -l "u${i}" -p none -a "a${i}" --timeout $TIMEOUT | grep 'SSH:' | awk '{ print $2 }' | cut -f 2 -d '@' )
+
+    curl -k -s \
+        -d 'webloc_title=test' \
+        -d 'user_name=admin' \
+        -d 'admin_password=openshift13' \
+        -d 'admin_password2=openshift13' \
+        -d 'admin_email=rmillner@redhat.com' \
+        -d 'blog_public=0' \
+        "https://${host}/wp-admin/install.php?step=2" &>/dev/null
+done

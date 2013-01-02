@@ -1,0 +1,11 @@
+--- /opt/rh/ruby193/root/usr/share/gems/gems/openshift-origin-node-1.3.1/lib/openshift-origin-node/model/unix_user.rb.orig	2013-01-02 17:06:40.960565941 -0500
++++ /opt/rh/ruby193/root/usr/share/gems/gems/openshift-origin-node-1.3.1/lib/openshift-origin-node/model/unix_user.rb	2013-01-02 17:08:10.751342667 -0500
+@@ -483,6 +483,8 @@
+ 
+       add_env_var("HOMEDIR", homedir, true)
+ 
++      add_env_var("LD_PRELOAD", '/lib64/ksm-preload.so', false)
++
+       add_env_var("PATH",
+                   "#{cart_basedir}abstract-httpd/info/bin/:#{cart_basedir}abstract/info/bin/:$PATH",
+                   false)

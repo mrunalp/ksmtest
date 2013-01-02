@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for f in full_scans  pages_shared  pages_sharing  pages_to_scan  pages_unshared  pages_volatile  run  sleep_millisecs; do
+  echo "${f}" $(cat /sys/kernel/mm/ksm/$f)
+done
+echo "Apps: " $(grep 'OpenShift guest' /etc/passwd |wc -l)
+echo "Uptime: " $(uptime)
+
+

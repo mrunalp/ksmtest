@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rm -rf unbrice-ksm_preload-2c3984f
+tar -xzf unbrice-ksm_preload-stable-0-g7f62edf.tar.gz
+cd unbrice-ksm_preload-2c3984f
+make
+install -m 755 ksm-preload.so /lib64/ksm-preload.so
