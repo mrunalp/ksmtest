@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Restart 11 times, report the last 10 times
+for i in {1..11}
+do
+    stime=$(date '+%s.%0N')
+    runcon -u system_u -r system_r -t openshift_initrc_t -l s0-s0:c0.c1023 \
+        /usr/sbin/oo-admin-ctl-gears restartall &>/dev/null
+    etime=$(date '+%s.%0N')
+    if [ $i -gt 1 ]
+    then
+        echo "$etime $stime - p" | dc
+    fi
+done
