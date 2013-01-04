@@ -25,7 +25,7 @@ do
 
     rhc sshkey add -l "u${i}" -p none default /root/.ssh/id_rsa.pub
 
-    rhc app create -l "u${i}" -p none -a "a${i}" -t jbossas7 --no-git --no-dns --timeout $TIMEOUT
+    rhc app create -l "u${i}" -p none -a "a${i}" -t jbossas-7 --no-git --no-dns --timeout $TIMEOUT
 
     [ -e STOP ] && break
 done
