@@ -42,3 +42,11 @@ Finish the WordPress first time installation
 * __chkwp__
 
 Access the http, https WordPress pages and the phpmyadmin page.
+
+* __addon__
+
+Add LD_PRELOAD to all gears on the system
+
+* __delon__
+
+Remove LD_PRELOAD from all gears on the system
