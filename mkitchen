@@ -16,19 +16,17 @@ _EOF_
 fi
 
 
+mkdir -p /root/kitchen
+
+
 for i in `seq $GEARS`
 do
     gitrepo=$( rhc app show -l "u${i}" -p none -a "a${i}" --timeout $TIMEOUT | grep 'Git URL:' | awk '{ print $3 }' )
 
-    if [ -e "/root/appclone" ]
-    then
-        ( cd /root/appclone; git remote set-url --add origin "$gitrepo" )
-    else
-        git clone "$gitrepo" /root/appclone
-    fi
+    git clone "$gitrepo" /root/kitchen/a${i}
+    ( cd /root/kitchen/a${i}; git remote add upstream -m master git://github.com/openshift/kitchensink-example.git )
+    ( cd /root/kitchen/a${i}; git pull -s recursive -X theirs upstream master )
+    ( cd /root/kitchen/a${i}; git push )
+
 done
 
-
-( cd /root/appclone; git remote add upstream -m master git://github.com/openshift/kitchensink-example.git )
-( cd /root/appclone; git pull -s recursive -X theirs upstream master )
-( cd /root/appclone; git push )
