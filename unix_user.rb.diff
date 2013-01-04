@@ -4,7 +4,7 @@
  
        add_env_var("HOMEDIR", homedir, true)
  
-+      add_env_var("LD_PRELOAD", '/lib/ksm-preload.so:/lib64/ksm-preload.so', false)
++      add_env_var("LD_PRELOAD", 'ksm-preload.so', false)
 +
        add_env_var("PATH",
                    "#{cart_basedir}abstract-httpd/info/bin/:#{cart_basedir}abstract/info/bin/:$PATH",
