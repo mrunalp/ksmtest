@@ -7,8 +7,6 @@ awk -F : '{if ($5 == "OpenShift guest") {print $1, $6}}' /etc/passwd | {
         if [ -e $f ]
         then
             rm -f $f
-            runcon -u system_u -r system_r -t openshift_initrc_t -l s0-s0:c0.c1023 \
-                /usr/sbin/oo-admin-ctl-gears restartgear $uuid
         fi
     done
 }
