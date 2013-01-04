@@ -1,7 +1,17 @@
 #!/bin/bash
 
+[ -e /usr/include/gnu/stubs-32.h ] || yum -y install glibc-devel.i686
+
 rm -rf unbrice-ksm_preload-2c3984f
 tar -xzf unbrice-ksm_preload-stable-0-g7f62edf.tar.gz
 cd unbrice-ksm_preload-2c3984f
+patch -p1 < ../unbrice-ksm_preload-2c3984f.diff
+
+make clean
 make
 install -m 755 ksm-preload.so /lib64/ksm-preload.so
+
+
+make clean
+make CARCH="-m32 -march=i686 -mcpu=i686"
+install -m 755 ksm-preload.so /lib/ksm-preload.so

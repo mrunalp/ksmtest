@@ -1,0 +1,11 @@
+diff -u unbrice-ksm_preload-2c3984f.orig/Makefile unbrice-ksm_preload-2c3984f/Makefile
+--- unbrice-ksm_preload-2c3984f.orig/Makefile	2011-06-16 03:50:25.000000000 -0400
++++ unbrice-ksm_preload-2c3984f/Makefile	2013-01-04 16:57:09.891886508 -0500
+@@ -19,6 +19,7 @@
+ 	  -Wcast-align -Wno-sign-compare -Wconversion
+ #CFLAGS += -O0 -g -ggdb3 -Wbad-function-cast -DDEBUG # -pg
+ CFLAGS += -DNDEBUG -O2
++CFLAGS += $(CARCH)
+ 
+ .PHONY: all clean dist
+ 
