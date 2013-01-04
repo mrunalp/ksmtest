@@ -1,0 +1,34 @@
+#!/bin/bash
+
+GEARS=50
+TIMEOUT=600
+
+if ! [ -e /root/.ssh/config ]
+then
+    cat <<_EOF_ > /root/.ssh/config
+Host *
+    StrictHostKeyChecking no
+
+_EOF_
+
+    chmod 600 /root/.ssh/config
+    restorecon /root/.ssh/config
+fi
+
+
+for i in `seq $GEARS`
+do
+    gitrepo=$( rhc app show -l "u${i}" -p none -a "a${i}" --timeout $TIMEOUT | grep 'Git URL:' | awk '{ print $3 }' )
+
+    if [ -e "/root/appclone" ]
+    then
+        ( cd /root/appclone; git remote set-url --add origin "$gitrepo" )
+    else
+        git clone "$gitrepo" /root/appclone
+    fi
+done
+
+
+( cd /root/appclone; git remote add upstream -m master git://github.com/openshift/kitchensink-example.git )
+( cd /root/appclone; git pull -s recursive -X theirs upstream master )
+( cd /root/appclone; git push )
