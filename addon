@@ -7,7 +7,7 @@ awk -F : '{if ($5 == "OpenShift guest") {print $1, $6}}' /etc/passwd | {
         if ! [ -e $f ]
         then
             cat <<EOF > $f
-export LD_PRELOAD='/lib64/ksm-preload.so'
+export LD_PRELOAD='/lib/ksm-preload.so:/lib64/ksm-preload.so'
 EOF
             restorecon $f
             runcon -u system_u -r system_r -t openshift_initrc_t -l s0-s0:c0.c1023 \
